@@ -1,0 +1,66 @@
+A quick sketch to (roughly) map the history of OSM edits in Kathmandu valley
+========================================================
+
+We've all seen those awesome ["Year of Edits" videos](http://www.youtube.com/watch?v=lsReygHnXAU) of OSM. As the OSM community in Nepal and Kathmandu are growing, people have thought of doing similar work to visualize the growth of OSM in Nepal / Kathmandu. I'm happy to report that [OSM Nepal](http://www.osmnepal.org/) is working on that long term project. But as that project will likely take a while, I started to think that I can do approximate versions of that project using R, and learn R's [osmar](http://osmar.r-forge.r-project.org/) library while at it. What follows is a documentation of my v1 effort, written in a style that I hope is replicable.
+
+In the beginning...
+---
+
+I started with a "metro" extract of the Kathmandu valley (from http://metro.teczno.com/#kathmandu --  thanks [@michalmigurski](http://twitter.com/michalmigurski)!), and tried to open it using the `osmar` package. It took too long, though, so I had to open up only a small bounding box within Kathmandu to start playing with what I can do with this data in R. After creating the osmar object, I plot it, because it is so beautiful!
+
+```{r echo=F, warning=F, message=F, comment=NA, fig.height=7.75, fig.width=14, cache=TRUE}
+library(osmar)
+ktm_bbox <- center_bbox(85.3, 27.7, 3000, 3000)
+src = osmsource_osmosis(file="/Users/prabhaspokharel/Downloads/kathmandu.osm")
+ktm <- get_osm(ktm_bbox, source=source)
+plot(ktm)
+```
+
+Next step will be to create three `R` data structures, as `Spatial*DataFrames` or `sp` objects in R. We can now start doing more with these objects, like plotting them with `spplot`, and using other packages to work with them.
+
+```{r echo=F, warning=F, message=F, comment=NA, fig.height=7.75, fig.width=14, cache=TRUE}
+p <- as_sp(ktm, 'poly')
+l <- as_sp(ktm, 'lines')
+n <- as_sp(ktm, 'points')
+```
+
+The big approximation
+---
+I mentioned that I was going to do an approximate version of a history time-lapse. Well, at least in this v1, one of the approximations is that I'm not doing all of Kathmandu, let alone all of Nepal.
+
+There is another approximation here though, which is that I'm actually going to ignore the historical edits, and just treat all nodes / ways as if *they were created at their last edited date*.  This simplifies the work a lot, since all I have to deal with is one OSM file, I don't need to touch the history at all. Yes, this is a big approximation, but lets actually check how big:
+
+```{r}
+sum(n@data$version==1) / nrow(n@data)
+sum(n@data$version==1) / sum(n@data$version)
+```
+91% of all the nodes are in version 1. That means that once created, they were never edited. So the time lapse is correct for 91% of the objects in the map. And I'm capturing 77% of the edits that were made to this portion of the map. While not great, I'm willing to live with this, given this work is as simple as it is.
+
+Objective 1: Timelapse of when buildings were last edited
+--------------------------------------------------------------
+Okay, another simplification: lets begin with just polygons, and make a rough plot of when they were last edited, to see whether we're going to get anything out of this at all:
+
+```{r echo=F, warning=F, message=F, comment=NA, fig.height=7.75, fig.width=14, cache=TRUE}
+# create a 'fortified' version of the SpatialPolygonsDataFrame to make it ggplot friendly,
+# and merge that data in the dataframe into that fortified data frame
+pp <- merge(p@data, fortify(p), by='id')
+# unfortunately, ggplot doesn't do color- or fill-scales with timestamps, so we'll have to
+# come up with a numerical representation
+pp$unixDay <- as.double(as.Date(pp$timestamp))
+ggplot() + geom_map(data = pp, aes(map_id = id, fill = unixDay), 
+                     map = pp) + expand_limits(x = pp$long, y = pp$lat)
+
+```
+
+Okay, we've got something really really rough. All the polygons in this area of Kathmandu, colored by when they were last edited. Good start!
+```{r echo=F, warning=F, message=F, comment=NA, fig.height=7.75, fig.width=14, cache=TRUE}
+pp$week <- round_date(pp$timestamp, unit="week")
+pdf("plots_daily.pdf")
+d_ply(pp, .(week), .print=TRUE, function(weekly) {
+  if (nrow(weekly) > 1) { 
+    ggplot() + geom_map(data = weekly, aes(map_id = id, fill = unixDay), 
+                     map = weekly) + expand_limits(x = pp$long, y = pp$lat)
+  } else { NA}
+})
+dev.off()
+```
