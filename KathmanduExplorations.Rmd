@@ -8,17 +8,17 @@ In the beginning...
 
 I started with a "metro" extract of the Kathmandu valley (from http://metro.teczno.com/#kathmandu --  thanks [@michalmigurski](http://twitter.com/michalmigurski)!), and tried to open it using the `osmar` package. It took too long, though, so I had to open up only a small bounding box within Kathmandu to start playing with what I can do with this data in R. After creating the osmar object, I plot it, because it is so beautiful!
 
-```{r echo=F, warning=F, message=F, comment=NA, fig.height=7.75, fig.width=14, cache=TRUE}
+```{r warning=F, message=F, comment=NA, fig.height=7.75, fig.width=14, cache=TRUE}
 library(osmar)
 ktm_bbox <- center_bbox(85.3, 27.7, 3000, 3000)
 src = osmsource_osmosis(file="/Users/prabhaspokharel/Downloads/kathmandu.osm")
-ktm <- get_osm(ktm_bbox, source=source)
+ktm <- get_osm(ktm_bbox, source=src)
 plot(ktm)
 ```
 
 Next step will be to create three `R` data structures, as `Spatial*DataFrames` or `sp` objects in R. We can now start doing more with these objects, like plotting them with `spplot`, and using other packages to work with them.
 
-```{r echo=F, warning=F, message=F, comment=NA, fig.height=7.75, fig.width=14, cache=TRUE}
+```{r warning=F, message=F, comment=NA, fig.height=7.75, fig.width=14, cache=TRUE}
 p <- as_sp(ktm, 'poly')
 l <- as_sp(ktm, 'lines')
 n <- as_sp(ktm, 'points')
@@ -40,7 +40,7 @@ Objective 1: Timelapse of when buildings were last edited
 --------------------------------------------------------------
 Okay, another simplification: lets begin with just polygons, and make a rough plot of when they were last edited, to see whether we're going to get anything out of this at all:
 
-```{r echo=F, warning=F, message=F, comment=NA, fig.height=7.75, fig.width=14, cache=TRUE}
+```{r warning=F, message=F, comment=NA, fig.height=7.75, fig.width=14, cache=TRUE}
 # create a 'fortified' version of the SpatialPolygonsDataFrame to make it ggplot friendly,
 # and merge that data in the dataframe into that fortified data frame
 pp <- merge(p@data, fortify(p), by='id')
@@ -53,14 +53,46 @@ ggplot() + geom_map(data = pp, aes(map_id = id, fill = unixDay),
 ```
 
 Okay, we've got something really really rough. All the polygons in this area of Kathmandu, colored by when they were last edited. Good start!
-```{r echo=F, warning=F, message=F, comment=NA, fig.height=7.75, fig.width=14, cache=TRUE}
+
+Now, we want to create a single plot that we think will work well within the context of a time-lapse. First, we need to choose how long a time each snapshot in the time-lapse takes. I chose a week. After that, for a given week, we have to choose how to plot a 'still-frame' in the time-lapse. After much iteration, I came to the following idea: I'll color buildings added (or rather last-edited) as bright yellow, and the rest of the map grey. Here is the code below; I have chosen `week_start` to be the median week, to start iterating.
+```{r warning=F, message=F, comment=NA, fig.height=7.75, fig.width=14, cache=TRUE}
 pp$week <- round_date(pp$timestamp, unit="week")
-pdf("plots_daily.pdf")
-d_ply(pp, .(week), .print=TRUE, function(weekly) {
-  if (nrow(weekly) > 1) { 
-    ggplot() + geom_map(data = weekly, aes(map_id = id, fill = unixDay), 
-                     map = weekly) + expand_limits(x = pp$long, y = pp$lat)
-  } else { NA}
-})
-dev.off()
+toUnixDay <- function(x) { as.double(as.Date(x))}
+blank_theme <- function() {
+  theme(axis.text=element_blank(), axis.ticks = element_blank(), 
+        axis.title=element_blank(), panel.grid=element_blank(), 
+        panel.background=element_rect(fill='#cccccc'), legend.position = "none") 
+}
+
+plotMe <- function(week_start, pp, debug=F) {
+  week_end <- week_start + weeks(1)
+  untilnow <- subset(pp, unixDay < toUnixDay(week_end))
+  p <- ggplot() + 
+    geom_map(data = untilnow, aes(map_id = id, fill = unixDay >= toUnixDay(week_start)),
+             map = untilnow) + expand_limits(x = pp$long, y = pp$lat) +
+    labs(title=paste('Week of',week_start)) + 
+    scale_fill_manual(values=c("grey50", "yellow")) +
+    blank_theme()
+    
+  print(p) # i find that print(p) when p is a ggplot object actually helps make sure it
+           # is printed out into the graphical device, particularly when it is a pdf.
+  if(debug) { print(paste("That was week: ", week_start)) }
+}
+
+week_start <- median(pp$week)
+plotMe(week_start, pp)
 ```
+
+Looking pretty good. So lets produce a multi-page pdf, going through all the weeks. The pdf won't show up here, but you can browse this repo to find it. But, what I do next is that I load up that pdf into video-editing software that allows you to create a pdf slideshow (I use [Camtasia](http://www.techsmith.com/camtasia.html), which is made for screen captures, but also serves me as a light video editor).
+```{r warning=F, message=F, comment=NA, fig.height=7.75, fig.width=14, cache=TRUE}
+lastWeek <- max(pp$week)
+week_start <- min(pp$week)
+pdf("plots_daily.pdf")
+while(week_start < lastWeek) {
+  week_start <- min(subset(pp, week>week_start)$week)
+  plotMe(week_start,pp)
+}
+graphics.off()
+```
+Youtube embed:
+<iframe width="420" height="315" src="//www.youtube.com/embed/g2TDg7oU-j4?rel=0" frameborder="0" allowfullscreen></iframe>
