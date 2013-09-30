@@ -9,7 +9,8 @@ In the beginning...
 I started with a "metro" extract of the Kathmandu valley (from http://metro.teczno.com/#kathmandu --  thanks [@michalmigurski](http://twitter.com/michalmigurski)!), and tried to open it using the `osmar` package. It took too long, though, so I had to open up only a small bounding box within Kathmandu to start playing with what I can do with this data in R. After creating the osmar object, I plot it, because it is so beautiful!
 
 ```{r warning=F, message=F, comment=NA, fig.height=7.75, fig.width=14, cache=TRUE}
-library(osmar)
+require(devtools)
+load_all("~/Code/lib/osmar1.1-5") # my custom version of osmar
 ktm_bbox <- center_bbox(85.3, 27.7, 3000, 3000)
 src = osmsource_osmosis(file="/Users/prabhaspokharel/Downloads/kathmandu.osm")
 ktm <- get_osm(ktm_bbox, source=src)
@@ -19,8 +20,9 @@ plot(ktm)
 Next step will be to create three `R` data structures, as `Spatial*DataFrames` or `sp` objects in R. We can now start doing more with these objects, like plotting them with `spplot`, and using other packages to work with them.
 
 ```{r warning=F, message=F, comment=NA, fig.height=7.75, fig.width=14, cache=TRUE}
+require(sp)
 p <- as_sp(ktm, 'poly')
-l <- as_sp(ktm, 'lines')
+#l <- as_sp(ktm, 'lines')
 n <- as_sp(ktm, 'points')
 ```
 
@@ -41,6 +43,9 @@ Objective 1: Timelapse of when buildings were last edited
 Okay, another simplification: lets begin with just polygons, and make a rough plot of when they were last edited, to see whether we're going to get anything out of this at all:
 
 ```{r warning=F, message=F, comment=NA, fig.height=7.75, fig.width=14, cache=TRUE}
+require(ggplot2)
+require(scales)
+require(lubridate)
 # create a 'fortified' version of the SpatialPolygonsDataFrame to make it ggplot friendly,
 # and merge that data in the dataframe into that fortified data frame
 pp <- merge(p@data, fortify(p), by='id')
@@ -66,10 +71,12 @@ blank_theme <- function() {
 
 plotMe <- function(week_start, pp, debug=F) {
   week_end <- week_start + weeks(1)
-  untilnow <- subset(pp, unixDay < toUnixDay(week_end))
+  until_this_week <- subset(pp, unixDay < toUnixDay(week_end))
+  until_this_week$before_this_week <- until_this_week$unixDay >= toUnixDay(week_start)
   p <- ggplot() + 
-    geom_map(data = untilnow, aes(map_id = id, fill = unixDay >= toUnixDay(week_start)),
-             map = untilnow) + expand_limits(x = pp$long, y = pp$lat) +
+    geom_map(data = until_this_week, aes(map_id = id, 
+             fill = before_this_week), map = until_this_week) + 
+    expand_limits(x = pp$long, y = pp$lat) +
     labs(title=paste('Week of',week_start)) + 
     scale_fill_manual(values=c("grey50", "yellow")) +
     blank_theme()
@@ -79,8 +86,8 @@ plotMe <- function(week_start, pp, debug=F) {
   if(debug) { print(paste("That was week: ", week_start)) }
 }
 
-week_start <- median(pp$week)
-plotMe(week_start, pp)
+
+plotMe(median(pp$week), pp)
 ```
 
 Looking pretty good. So lets produce a multi-page pdf, going through all the weeks. The pdf won't show up here, but you can browse this repo to find it. But, what I do next is that I load up that pdf into video-editing software that allows you to create a pdf slideshow (I use [Camtasia](http://www.techsmith.com/camtasia.html), which is made for screen captures, but also serves me as a light video editor).
