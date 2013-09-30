@@ -1,3 +1,5 @@
+<p><link href="http://kevinburke.bitbucket.org/markdowncss/markdown.css" rel="stylesheet"></link></p>
+
 A quick sketch to (roughly) map the history of OSM edits in Kathmandu valley
 ========================================================
 
