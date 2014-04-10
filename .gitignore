@@ -1,3 +1,4 @@
 cache/
 .R*
 *.md
+.Rproj.user
