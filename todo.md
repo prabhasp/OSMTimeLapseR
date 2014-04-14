@@ -1,4 +1,4 @@
- * figure out GIF outputting
+ * [figure out GIF outputting]
  * add a OSM baselayer (mapbox streets)
     * [bug] frame of reference (ie, bbox) shouldn't change over time
  * [customize time unit of aggregation]

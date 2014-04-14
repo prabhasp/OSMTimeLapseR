@@ -16,3 +16,9 @@ saveHTML({
     title="Edits to OSM in Kathmandu",
     description="Edits to OSM in Kathmandu. Points appear on the map (in red) on the week
 when they were last edited, and stay on in gray.")
+
+saveGIF({
+    make_time_lapse_dt(nd, time_unit="year")
+}, movie.name="kathmandu_yearly.gif", interval=0.5,
+    img.name = paste("timelapse", TIME_UNIT,"els",sep="_"),
+    imgdir=TIME_UNIT, outdir=normalizePath('TimeLapse'))
