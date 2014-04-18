@@ -9,6 +9,7 @@ Dependencies
    * Open R
    * `install.packages("ggplot2", "data.table", "stringr", "lubridate", "animation", "gridExtra")`
  * Install [http://wiki.openstreetmap.org/wiki/Osmconvert](osmconvert)
+ * If you want to make GIFs, ImageMagick
 
 Running a file through the visualizer
 ---

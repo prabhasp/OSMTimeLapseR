@@ -10,10 +10,14 @@
    (same, with osm_parser)
  * add annotations
 
- * change how the histogram is highlighted (add a vertical line that spans the whole bottom graph)
- * controllable slider in js
  * package into an R package
    * figure out API that people might want
+
+Argh
+ * change how the histogram is highlighted (add a vertical line that spans the whole bottom graph)
+   -- why isn't geom_vline working well with time scales?
+ * controllable slider in js
+   -- would need to add slider to scianimator. :( will likely not be accepted
 
 Soon
  * custom baselayer
