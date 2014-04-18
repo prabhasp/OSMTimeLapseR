@@ -18,7 +18,7 @@ TIME_UNIT = "year"
 # when they were last edited, and stay on in gray.")
 
 saveGIF({
-    make_time_lapse_dt(nd, time_unit="year")
+    make_time_lapse_dt(nd, time_unit="year", verbose=TRUE)
 }, movie.name="kathmandu_yearly.gif", interval=0.5,
     img.name = paste("timelapse", TIME_UNIT,"els",sep="_"),
     imgdir=TIME_UNIT, outdir=normalizePath('TimeLapse'))
