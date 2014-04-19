@@ -17,7 +17,7 @@ I started with a "metro" extract of the Kathmandu valley (from http://metro.tecz
 require(devtools)
 load_all("~/Code/lib/osmar1.1-5") # my custom version of osmar
 ktm_bbox <- center_bbox(85.3, 27.7, 3000, 3000)
-src = osmsource_osmosis(file="/Users/prabhaspokharel/Downloads/kathmandu.osm")
+src = osmsource_osmosis(file=normalizePath("~/Downloads/kathmandu.osm"))
 ktm <- get_osm(ktm_bbox, source=src)
 plot(ktm)
 ```
