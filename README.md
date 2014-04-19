@@ -9,12 +9,13 @@ Dependencies
    * Open R
    * `install.packages("ggplot2", "data.table", "stringr", "lubridate", "animation", "gridExtra")`
  * Install [http://wiki.openstreetmap.org/wiki/Osmconvert](osmconvert)
+ * If you want to make GIFs, ImageMagick
 
 Running a file through the visualizer
 ---
   1. Generate a csv file with lat/lon/timestamp files with osmconvert. Example command:
   ```
-  osmconvert ~/Downloads/kathmandu.osm --csv="@lat @lon @timestamp" --csv-separator=", " -o=kathmandu_nodes.csv
+  osmconvert ~/Downloads/kathmandu.osm --csv="@lat @lon @timestamp" --csv-separator="," -o=kathmandu_nodes.csv
   ```
   Replace kathmandu.osm with the appropriate source osm file that osmconvert accepts, and kathmandu_nodes.csv with your own csv file name.
 
