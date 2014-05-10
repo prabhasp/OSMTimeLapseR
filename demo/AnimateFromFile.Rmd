@@ -5,13 +5,17 @@ USE OSMTimeLapseR to animate your own data
 In this example, we will download a dataset from Michal Migurski's amazing [Metro Extracts](http://osm-extracted-metros.s3.amazonaws.com/sochi.osm.pbf) for Sochi, Russia, and visualize data on OSM over time. In this example, we will create a GIF, but you could create an HTML-based visualization with controls without much hassle if you have a look at [the html demo](AnimateHTML.html)
 
 ```{r cache=TRUE, output=FALSE, warning=FALSE, message=FALSE}
-require(OSMTimeLapseR)                    ## Load the library
+ ## Load the library
+require(OSMTimeLapseR)                   
+## Download file into local directory
 download.file(url = "http://osm-extracted-metros.s3.amazonaws.com/sochi.osm.pbf",
-              destfile='sochi.osm.pbf')  ## Download file into local directory
+              destfile='sochi.osm.pbf')  
 
-sochi_2013 = data_table_from_OSM_file('sochi.osm.pbf') ## Load OSM file for time lapse
-
-saveGIF({                        ## Create a GIF. Note: requires ImageMagick.
+## Load OSM file for time lapse
+sochi_2013 = data_table_from_OSM_file('sochi.osm.pbf')
+ 
+## Create a GIF. Note: requires ImageMagick.
+saveGIF({                       
     time_lapse(sochi_2013, 'year', verbose = FALSE)
 }, movie.name = "sochi_yearly.gif", interval = 0.5, outdir = getwd())
 ```

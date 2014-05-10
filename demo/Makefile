@@ -1,4 +1,4 @@
-all: kathmandu_yearly.gif kathmandu_monthly.html sochi_yearly.gif ../index.html
+all: ../index.html kathmandu_yearly.gif sochi_yearly.gif kathmandu_monthly.html
 ../index.html: ../README.md
 	markdown ../README.md > ../index.html
 kathmandu_yearly.gif: AnimateGIF.Rmd
