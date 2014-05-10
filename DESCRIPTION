@@ -13,6 +13,7 @@ Depends:
     data.table,
     OpenStreetMap
 Description: OSMTimeLapseR helps you make timelapses from your OSM data exports.
-License: Dual-licensed. GPL for commercial uses. BSD for non-commercial uses.
+License: GPL for code. Data included in package is © OpenStreetMap contributors,
+         available for redistribution under the Odbl license.
 URL: http://www.prabhasp.github.com/OSM-TimeLapser
 BugReports: http://github.com/prabhasp/OSM-TimeLapser/issues

@@ -1,9 +1,9 @@
 #' Return a blank ggplot theme, good for overlaying maps on top of.
 #' @param bgfill Background fill color.
 blank_theme <- function(bgfill='white') {
-    theme(axis.text=element_blank(), axis.ticks = element_blank(), 
-          axis.title=element_blank(), panel.grid=element_blank(), 
-          panel.background=element_rect(fill=bgfill), legend.position = "none") 
+    theme(axis.title.y = element_blank(), axis.title.y = element_text(hjust=1),
+          axis.text = element_blank(), axis.ticks = element_blank(), legend.position = "none",
+          panel.grid = element_blank(), panel.background = element_rect(fill=bgfill)) 
 }
 #' Default plot for a single timeunit worth of data (one frame of animation).
 #' 
@@ -20,8 +20,9 @@ plot_single_timeunit <- function(before, this, total_by_timeunit, timeunit_prett
     p1 <- p1 + 
         geom_point(data=before, aes(x=lon, y=lat), color="grey50", size=1, alpha=0.5) +
         geom_point(data=this, aes(x=lon, y=lat), color="red", size=1, alpha=0.8) +
-        labs(title=paste(timeunit_pretty,this_timeunit, sep=": ")) + # coord_map(projection='mercator') +
-        blank_theme()
+        labs(title=paste(timeunit_pretty,this_timeunit, sep=": ")) + 
+        coord_map(projection='mercator') + blank_theme() +
+        labs(x="Data © OpenStreetMap contributors")
     total_by_timeunit$is_this_timeunit = total_by_timeunit$timeunit == this_timeunit
     p2 <- ggplot(data=total_by_timeunit, aes(x=timeunit, y=N, fill=is_this_timeunit)) + 
         geom_bar(stat='identity') +

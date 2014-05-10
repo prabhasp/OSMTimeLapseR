@@ -4,7 +4,7 @@
  * ~~add a OSM baselayer (mapbox streets)~~
     * ~~[bug] frame of reference (ie, bbox) shouldn't change over time~~
  * ~~customize time unit of aggregation~~
- * add OSM credit line
+ * ~~add OSM credit line~~
  * make basemap not fuzzy (ie, don't reproject)
 
 **Medium Priority**
