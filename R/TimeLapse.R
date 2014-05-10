@@ -1,9 +1,9 @@
 #' Return a blank ggplot theme, good for overlaying maps on top of.
 #' @param bgfill Background fill color.
-blank_theme <- function(bgfill='white') {
-    theme(axis.title.y = element_blank(), axis.title.y = element_text(hjust=1),
+blank_theme <- function(bgfill = 'white') {
+    theme(axis.title.y = element_blank(), axis.title.y = element_text(hjust = 1),
           axis.text = element_blank(), axis.ticks = element_blank(), legend.position = "none",
-          panel.grid = element_blank(), panel.background = element_rect(fill=bgfill)) 
+          panel.grid = element_blank(), panel.background = element_rect(fill = bgfill)) 
 }
 #' Default plot for a single timeunit worth of data (one frame of animation).
 #' 
@@ -24,18 +24,19 @@ plot_single_timeunit <- function(before, this, total_by_timeunit, timeunit_prett
     stopifnot(length(this_timeunit) == 1) 
     p1 <- if(is.null(basemap)) { ggplot() } else { autoplot(basemap) }
     p1 <- p1 + 
-        geom_point(data=before, aes(x=lon, y=lat), color=baseColor, size=size, alpha=alpha^2) +
-        geom_point(data=this, aes(x=lon, y=lat), color=highlight, size=size, alpha=alpha) +
-        labs(title=paste(timeunit_pretty,this_timeunit, sep=": ")) + 
+        geom_point(data = before, aes(x = lon, y = lat), color = baseColor, size = size, alpha = alpha^2) +
+        geom_point(data = this, aes(x = lon, y = lat), color = highlight, size = size, alpha = alpha) +
+        labs(title = paste(timeunit_pretty,this_timeunit, sep = ": ")) + 
         coord_map() + blank_theme(bgColor) +
-        labs(x="Data © OpenStreetMap contributors")
+        labs(x = "Data © OpenStreetMap contributors")
     total_by_timeunit$is_this_timeunit = total_by_timeunit$timeunit == this_timeunit
-    p2 <- ggplot(data=total_by_timeunit, aes(x=timeunit, y=N, fill=is_this_timeunit)) + 
-        geom_bar(stat='identity') +
-        theme_minimal() + theme(legend.position='none', axis.line=element_blank()) + 
-        labs(y="# of Nodes", x=timeunit_pretty) +
-        scale_fill_manual(values=c(baseColor, highlight))
-    grid.arrange(p1, p2, heights=c(4,1))
+    p2 <- ggplot(data = total_by_timeunit, aes(x = timeunit, y = N, fill = is_this_timeunit)) + 
+        geom_bar(stat = 'identity') +
+        theme_minimal() + theme(legend.position = 'none', axis.line = element_blank()) + 
+        labs(y = "# of Nodes", x = timeunit_pretty) +
+        scale_fill_manual(values = c(baseColor, highlight)) +
+        geom_vline(xintercept = as.numeric(this_timeunit), color=highlight)
+    grid.arrange(p1, p2, heights = c(4,1))
 }
 
 #' Default plot for a single timeunit worth of data (one frame of animation).
@@ -51,16 +52,16 @@ plot_single_timeunit <- function(before, this, total_by_timeunit, timeunit_prett
 #' @param ... Other parameters to be passed to plot_single_timeunit. Eg. highlight, alpha, size.
 #' @export
 time_lapse <- function(node_data_table, time_unit = 'week', downloadBaseMap = TRUE,
-                       plot_single_timeunit_FUN = plot_single_timeunit, verbose=FALSE, ...) { 
+                       plot_single_timeunit_FUN = plot_single_timeunit, verbose = FALSE, ...) { 
     stopifnot(all(c("lat", "lon", "time_stamp") %in% names(node_data_table)))
     ## basemap
     if(downloadBaseMap) {
         if(verbose) print("Downloading map ...")
-        lat_range <- range(node_data_table$lat, na.rm=T)
-        lon_range <- range(node_data_table$lon, na.rm=T)
-        basemap <- openmap(upperLeft=c(max(lat_range), min(lon_range)), 
-                           lowerRight=c(min(lat_range),max(lon_range)),
-                           type='mapbox', minNumTiles=9)
+        lat_range <- range(node_data_table$lat, na.rm = T)
+        lon_range <- range(node_data_table$lon, na.rm = T)
+        basemap <- openmap(upperLeft = c(max(lat_range), min(lon_range)), 
+                           lowerRight = c(min(lat_range),max(lon_range)),
+                           type = 'mapbox', minNumTiles = 9)
         ## openmap's output is in "openstreetmap" mercator. need to convert to wgs
         ## todo: project data instead?
         if(verbose) print("Projecting map ...")
@@ -72,18 +73,18 @@ time_lapse <- function(node_data_table, time_unit = 'week', downloadBaseMap = TR
     ## data
     if(verbose) print("Aggregating time unit ...")
     node_data_table <- na.omit(node_data_table)
-    node_data_table[, timeunit:=floor_date(time_stamp, time_unit)]
+    node_data_table[, timeunit := floor_date(time_stamp, time_unit)]
     setkey(node_data_table, timeunit)
-    total_by_timeunit <- node_data_table[, .N, by=timeunit]
+    total_by_timeunit <- node_data_table[, .N, by = timeunit]
     if(verbose) cat("Generating plots ")
     for (current_timeunit in sort(unique(node_data_table$timeunit))) {
         before = node_data_table[timeunit < current_timeunit]
-        this = node_data_table[timeunit==current_timeunit]
+        this = node_data_table[timeunit == current_timeunit]
         if(verbose) cat(".")
-        plot_single_timeunit_FUN(before=before, this=this,
-                                 total_by_timeunit=total_by_timeunit, 
-                                 timeunit_pretty=toupper(time_unit),
-                                 basemap=basemap, ...)
+        plot_single_timeunit_FUN(before = before, this = this,
+                                 total_by_timeunit = total_by_timeunit, 
+                                 timeunit_pretty = toupper(time_unit),
+                                 basemap = basemap, ...)
         ani.pause()
     }
     if(verbose) cat('\n')
@@ -99,7 +100,7 @@ time_lapse <- function(node_data_table, time_unit = 'week', downloadBaseMap = TR
 #'          http://wiki.openstreetmap.org/wiki/Osmconvert for installation.
 #' @export
 #' @return A data.table, with lat, lon, and time_stamp columns.
-read_OSM <- function(osm_file, osmconvert='osmconvert') {
+read_OSM <- function(osm_file, osmconvert = 'osmconvert') {
     ## Verify that osm_file exists
     osm_file = normalizePath(osm_file)
     if(!file.exists(osm_file)) { stop("Could not find file: ", osm_file)}
@@ -107,7 +108,7 @@ read_OSM <- function(osm_file, osmconvert='osmconvert') {
     if(tools::file_ext(osm_file) %in% c('osm', 'pbf')) {
         ## First, verify that osmconvert can be run from the command line
         cmd.fun = if (.Platform$OS.type == 'windows') shell else system
-        tryCatch(cmd.fun(sprintf('%s -h', osmconvert), intern=TRUE, ignore.stdout=TRUE), 
+        tryCatch(cmd.fun(sprintf('%s -h', osmconvert), intern = TRUE, ignore.stdout = TRUE), 
                  error = function(e) { stop("Could not find command: ", osmconvert )})
         ## Time to convert to csv. Pick the same basename and directory as the input file.
         osm_file_basename = tools::file_path_sans_ext(osm_file)
@@ -119,7 +120,7 @@ read_OSM <- function(osm_file, osmconvert='osmconvert') {
         stop("File with that extension not support. Please report a bug if it should be.")
     }
     ## Finally, read the csv file, convert into a data.table, convert time_stamp, and return
-    dt = data.table(setNames(read.csv(osm_file, header=F), c("lat", "lon", "time_stamp")))
+    dt = data.table(setNames(read.csv(osm_file, header = F), c("lat", "lon", "time_stamp")))
     dt$time_stamp = ymd_hms(dt$time_stamp) #dt[, time_stamp := ymd_hms(time_stamp)]
     dt
 }
