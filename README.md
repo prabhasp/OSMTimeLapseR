@@ -1,3 +1,4 @@
+<link href="http://kevinburke.bitbucket.org/markdowncss/markdown.css" rel="stylesheet"></link>
 OSM-TimeLapseR
 ==============
 Welcome to OSM-TimeLapseR. This package helps you visualize the edits to OSM in a certain part of the world. It was developed based on a request from the OSM Nepal community, whose work growing OSM in Kathmandu can be seen below: 

@@ -1,0 +1,27 @@
+<h1>OSM-TimeLapseR</h1>
+
+<p>Welcome to OSM-TimeLapseR. This package helps you visualize the edits to OSM in a certain part of the world. It was developed based on a request from the OSM Nepal community, whose work growing OSM in Kathmandu can be seen below: </p>
+
+<p><img src="demo/kathmandu_yearly.gif" alt="" title="" /></p>
+
+<p>A monthly visualization is <a href="http://prabhasp.github.io/OSM-TimeLapseR/demo/kathmandu_monthly.html">here</a>.</p>
+
+<h2>Create your own</h2>
+
+<ul>
+<li>To see how the above visualizations were produced, see the corresponding demos: <a href="http://prabhasp.github.io/OSM-TimeLapseR/demo/AnimateGIF.html">GIF</a>, <a href="http://prabhasp.github.io/OSM-TimeLapseR/demo/AnimateHTML.html">HTML</a>.</li>
+<li>To work with your own datasets, see <a href="http://prabhasp.github.io/OSM-TimeLapseR/demo/AnimateFromFile.html">this demo</a></li>
+</ul>
+
+<h2>Installation instructions</h2>
+
+<ul>
+<li>Install R (<a href="http://cran.r-project.org/bin/macosx/">Mac</a>, <a href="http://cran.r-project.org/bin/windows/base/">Windows</a>, <a href="http://cran.r-project.org/bin/">Other</a>). I also recommend installing <a href="https://www.rstudio.com/ide/download/">RStudio</a>.</li>
+<li>Install OSMTimeLapseR by typing the following in your R console:
+<ul>
+<li><code>install.packages('devtools'); require(devtools); install_github("prabhasp/OSM-TimeLapseR")</code> </li>
+</ul></li>
+<li>Install Java (required by R's <code>OpenStreetMap</code> package).</li>
+<li>If you want to work with your own files, install <a href="osmconvert">http://wiki.openstreetmap.org/wiki/Osmconvert</a></li>
+<li>If you want to make GIFs, install <a href="http://www.imagemagick.org/">ImageMagick</a></li>
+</ul>
