@@ -2,9 +2,8 @@
 \alias{time_lapse}
 \title{Default plot for a single timeunit worth of data (one frame of animation).}
 \usage{
-time_lapse(node_data_table, time_unit = "week",
-  plot_single_timeunit_FUN = plot_single_timeunit, verbose = FALSE,
-  downloadBaseMap = TRUE)
+time_lapse(node_data_table, time_unit = "week", downloadBaseMap = TRUE,
+  plot_single_timeunit_FUN = plot_single_timeunit, verbose = FALSE, ...)
 }
 \arguments{
   \item{node_data_table}{data.table containing, at least
@@ -23,6 +22,9 @@ time_lapse(node_data_table, time_unit = "week",
   \item{verbose}{A flag to determine whether progress of
   the time lapse making process are printed out to the
   console.}
+
+  \item{...}{Other parameters to be passed to
+  plot_single_timeunit. Eg. highlight, alpha, size.}
 }
 \description{
 Default plot for a single timeunit worth of data (one frame

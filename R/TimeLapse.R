@@ -12,23 +12,29 @@ blank_theme <- function(bgfill='white') {
 #' @param total_by_timeunit data.table with a summary of total observations per timeunit.
 #' @param timeunit_pretty A pretty printed version of the timeunit (eg. Week for week).
 #' @param basemap A basemap to plot data on top of. Must be a ggplot object.
+#' @param baseColor The color to plot "before" points in, Default is gray.
+#' @param highlight The color to plot "this time_unit" points in, Default is red.
+#' @param bgColor The color of the background panel, Default is white.
+#' @param size The default point size, Default is 1.
+#' @param alpha The default alpha for highlighted values. Default is .8. For background points, alpha^2 is used.
 #' @export
-plot_single_timeunit <- function(before, this, total_by_timeunit, timeunit_pretty, basemap=NULL) {
+plot_single_timeunit <- function(before, this, total_by_timeunit, timeunit_pretty, basemap = NULL,
+        baseColor = 'grey50', highlight = 'red', bgColor = 'white', size = 1, alpha = 0.8) {
     this_timeunit <- unique(this$timeunit)
     stopifnot(length(this_timeunit) == 1) 
     p1 <- if(is.null(basemap)) { ggplot() } else { autoplot(basemap) }
     p1 <- p1 + 
-        geom_point(data=before, aes(x=lon, y=lat), color="grey50", size=1, alpha=0.5) +
-        geom_point(data=this, aes(x=lon, y=lat), color="red", size=1, alpha=0.8) +
+        geom_point(data=before, aes(x=lon, y=lat), color=baseColor, size=size, alpha=alpha^2) +
+        geom_point(data=this, aes(x=lon, y=lat), color=highlight, size=size, alpha=alpha) +
         labs(title=paste(timeunit_pretty,this_timeunit, sep=": ")) + 
-        coord_map(projection='mercator') + blank_theme() +
+        coord_map() + blank_theme(bgColor) +
         labs(x="Data © OpenStreetMap contributors")
     total_by_timeunit$is_this_timeunit = total_by_timeunit$timeunit == this_timeunit
     p2 <- ggplot(data=total_by_timeunit, aes(x=timeunit, y=N, fill=is_this_timeunit)) + 
         geom_bar(stat='identity') +
         theme_minimal() + theme(legend.position='none', axis.line=element_blank()) + 
         labs(y="# of Nodes", x=timeunit_pretty) +
-        scale_fill_manual(values=c("grey50", "red"))
+        scale_fill_manual(values=c(baseColor, highlight))
     grid.arrange(p1, p2, heights=c(4,1))
 }
 
@@ -42,9 +48,10 @@ plot_single_timeunit <- function(before, this, total_by_timeunit, timeunit_prett
 #'                              details on what the function should look like.
 #' @param verbose          A flag to determine whether progress of the time lapse making process are printed
 #'                              out to the console.
+#' @param ... Other parameters to be passed to plot_single_timeunit. Eg. highlight, alpha, size.
 #' @export
-time_lapse <- function(node_data_table, time_unit='week', plot_single_timeunit_FUN=plot_single_timeunit,
-                       verbose=FALSE, downloadBaseMap=TRUE) { 
+time_lapse <- function(node_data_table, time_unit = 'week', downloadBaseMap = TRUE,
+                       plot_single_timeunit_FUN = plot_single_timeunit, verbose=FALSE, ...) { 
     stopifnot(all(c("lat", "lon", "time_stamp") %in% names(node_data_table)))
     ## basemap
     if(downloadBaseMap) {
@@ -76,7 +83,7 @@ time_lapse <- function(node_data_table, time_unit='week', plot_single_timeunit_F
         plot_single_timeunit_FUN(before=before, this=this,
                                  total_by_timeunit=total_by_timeunit, 
                                  timeunit_pretty=toupper(time_unit),
-                                 basemap=basemap)
+                                 basemap=basemap, ...)
         ani.pause()
     }
     if(verbose) cat('\n')
