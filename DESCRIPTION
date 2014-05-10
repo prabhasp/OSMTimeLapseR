@@ -1,0 +1,18 @@
+Package: OSMTimeLapseR
+Version: 0.0.1
+Date: 2014-4-29
+Title: OSMTimeLapser: Make timelapses out of your OSM data.
+Author: Prabhas Pokharel (Sustainable Engineering Lab, Columbia University)
+Maintainer: Prabhas Pokharel <prabhas.pokharel@gmail.com>
+Depends:
+    R (>= 3.0.2),
+    lubridate,
+    gridExtra,
+    ggplot2,
+    animation,
+    data.table,
+    OpenStreetMap
+Description: OSMTimeLapseR helps you make timelapses from your OSM data exports.
+License: Dual-licensed. GPL for commercial uses. BSD for non-commercial uses.
+URL: http://www.prabhasp.github.com/OSM-TimeLapser
+BugReports: http://github.com/prabhasp/OSM-TimeLapser/issues
