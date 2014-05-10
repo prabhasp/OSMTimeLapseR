@@ -3,3 +3,4 @@ cache/
 *.md
 .Rproj.user
 *.Rproj
+*.RDS

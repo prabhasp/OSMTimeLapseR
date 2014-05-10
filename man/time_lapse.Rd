@@ -2,7 +2,7 @@
 \alias{time_lapse}
 \title{Default plot for a single timeunit worth of data (one frame of animation).}
 \usage{
-time_lapse(node_data_table, time_unit = "week", downloadBaseMap = TRUE,
+time_lapse(node_data_table, time_unit = "week", download_basemap = TRUE,
   plot_single_timeunit_FUN = plot_single_timeunit, verbose = FALSE, ...)
 }
 \arguments{

@@ -3,8 +3,8 @@
 \title{Default plot for a single timeunit worth of data (one frame of animation).}
 \usage{
 plot_single_timeunit(before, this, total_by_timeunit, timeunit_pretty,
-  basemap = NULL, baseColor = "grey50", highlight = "red",
-  bgColor = "white", size = 1, alpha = 0.8)
+  basemap = NULL, base_color = "grey50", highlight = "red",
+  bg_color = "white", size = 1, alpha = 0.8)
 }
 \arguments{
   \item{before}{data.table for all the (uninclusive)
@@ -21,14 +21,14 @@ plot_single_timeunit(before, this, total_by_timeunit, timeunit_pretty,
   \item{basemap}{A basemap to plot data on top of. Must be
   a ggplot object.}
 
-  \item{baseColor}{The color to plot "before" points in,
+  \item{base_color}{The color to plot "before" points in,
   Default is gray.}
 
   \item{highlight}{The color to plot "this time_unit"
   points in, Default is red.}
 
-  \item{bgColor}{The color of the background panel, Default
-  is white.}
+  \item{bg_color}{The color of the background panel,
+  Default is white.}
 
   \item{size}{The default point size, Default is 1.}
 

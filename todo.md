@@ -17,8 +17,7 @@
 
 
 **Argh** *:(harder than need to be items)*
- * change how the histogram is highlighted (add a vertical line that spans the whole bottom graph)
-   -- why isn't geom_vline working well with time scales?
+ * ~~change how the histogram is highlighted (add a vertical line that spans the whole bottom graph)~~
  * custom baselayer
 
 **One Day**

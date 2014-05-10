@@ -56,16 +56,8 @@ time_lapse <- function(node_data_table, time_unit = 'week', download_basemap = T
     stopifnot(all(c("lat", "lon", "time_stamp") %in% names(node_data_table)))
     ## basemap
     if(download_basemap) {
-        if(verbose) print("Downloading map ...")
-        lat_range <- range(node_data_table$lat, na.rm = T)
-        lon_range <- range(node_data_table$lon, na.rm = T)
-        basemap <- openmap(upperLeft = c(max(lat_range), min(lon_range)), 
-                           lowerRight = c(min(lat_range),max(lon_range)),
-                           type = 'mapbox', minNumTiles = 9)
-        ## openmap's output is in "openstreetmap" mercator. need to convert to wgs
-        ## todo: project data instead?
-        if(verbose) print("Projecting map ...")
-        basemap <- openproj(basemap, CRS("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs"))
+        basemap <- get_basemap(range(node_data_table$lat, na.rm = T),
+                               range(node_data_table$lon, na.rm = T), verbose = verbose)
     } else {
         basemap <- NULL
     }
@@ -88,6 +80,26 @@ time_lapse <- function(node_data_table, time_unit = 'week', download_basemap = T
         ani.pause()
     }
     if(verbose) cat('\n')
+}
+
+get_basemap <- function(lat_range, lon_range, num_tiles = 9, type = "mapbox", 
+                        cache = TRUE, verbose = FALSE) {
+    fname <- sprintf("OSMBasemap_%s.RDS", paste0(lat_range, lon_range, collapse=""))
+    if(file.exists(fname) & cache) {
+        if(verbose) print("Reading map from file ...")
+        basemap <- readRDS(fname)
+    } else {
+        if(verbose) print("Downloading map ...")
+        basemap <- openmap(upperLeft = c(max(lat_range), min(lon_range)), 
+                           lowerRight = c(min(lat_range), max(lon_range)),
+                           type = type, minNumTiles = num_tiles)
+        ## openmap's output is in "openstreetmap" mercator. need to convert to wgs
+        ## todo: project data instead?
+        if(verbose) print("Projecting map ...")
+        basemap <- openproj(basemap, CRS("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs"))
+        if(cache) saveRDS(basemap, fname)
+    }
+    basemap
 }
 
 #' Create a data.table with lat,lon,time_stamp given an osm file.
