@@ -8,8 +8,8 @@ time_lapse(node_data_table, time_unit = "week",
 }
 \arguments{
   \item{node_data_table}{data.table containing, at least
-  lat, lon, and timestamp. lat + lon must be in WGS84.
-  timestamp must be of type R POSIXct.}
+  lat, lon, and time_stamp. lat + lon must be in WGS84.
+  time_stamp must be of type R POSIXct.}
 
   \item{time_unit}{Time unit for each frame. As per
   lubridate::round_date, should be one of

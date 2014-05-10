@@ -33,8 +33,8 @@ single_timeunit_plot <- function(before, this, total_by_timeunit, timeunit_prett
 
 #' Default plot for a single timeunit worth of data (one frame of animation).
 #' 
-#' @param node_data_table  data.table containing, at least lat, lon, and timestamp. lat + lon must
-#'                         be in WGS84. timestamp must be of type R POSIXct.
+#' @param node_data_table  data.table containing, at least lat, lon, and time_stamp. lat + lon must
+#'                         be in WGS84. time_stamp must be of type R POSIXct.
 #' @param time_unit        Time unit for each frame. As per lubridate::round_date, should be one of
 #'                              "second","minute","hour","day", "week", "month", or "year."
 #' @param single_timeunit_plot_FUN Function for plotting a single frame. See single_timeunit_plot for
@@ -44,7 +44,7 @@ single_timeunit_plot <- function(before, this, total_by_timeunit, timeunit_prett
 #' @export
 time_lapse <- function(node_data_table, time_unit='week', single_timeunit_plot_FUN=single_timeunit_plot,
                        verbose=FALSE, downloadBaseMap=TRUE) { 
-    stopifnot(all(c("lat", "lon", "timestamp") %in% names(node_data_table)))
+    stopifnot(all(c("lat", "lon", "time_stamp") %in% names(node_data_table)))
     ## basemap
     if(downloadBaseMap) {
         if(verbose) print("Downloading map ...")
@@ -64,7 +64,7 @@ time_lapse <- function(node_data_table, time_unit='week', single_timeunit_plot_F
     ## data
     if(verbose) print("Aggregating time unit ...")
     node_data_table <- na.omit(node_data_table)
-    node_data_table[, timeunit:=floor_date(timestamp, time_unit)]
+    node_data_table[, timeunit:=floor_date(time_stamp, time_unit)]
     setkey(node_data_table, timeunit)
     total_by_timeunit <- node_data_table[, .N, by=timeunit]
     if(verbose) cat("Generating plots ")
@@ -72,45 +72,45 @@ time_lapse <- function(node_data_table, time_unit='week', single_timeunit_plot_F
         before = node_data_table[timeunit < current_timeunit]
         this = node_data_table[timeunit==current_timeunit]
         if(verbose) cat(".")
-        single_plot_fun(before=before, this=this,
-                        total_by_timeunit=total_by_timeunit, 
-                        timeunit_pretty=toupper(time_unit),
-                        basemap=basemap)
+        single_timeunit_plot_FUN(before=before, this=this,
+                                 total_by_timeunit=total_by_timeunit, 
+                                 timeunit_pretty=toupper(time_unit),
+                                 basemap=basemap)
         ani.pause()
     }
     if(verbose) cat('\n')
 }
 
-#' Create a data.table with lat,lon,timestamp given an osm file.
+#' Create a data.table with lat,lon,time_stamp given an osm file.
 #' OSM file can be a .csv file, a .osm file or a .pbf file.
-#' If .osm or .pbf file are input, then osm_convert must be the path to
-#' the osm_convert command. A .csv file with an identical basename will be created.
+#' If .osm or .pbf file are input, then osmconvert must be the path to
+#' the osmconvert command. A .csv file with an identical basename will be created.
 #' 
 #' @param osm_file The osm_file to process. Can be a .csv, .osm, or .pbf file.
-#' @param osm_convert Path to the osm_convert command-line utility. See
+#' @param osmconvert Path to the osmconvert command-line utility. See
 #'          http://wiki.openstreetmap.org/wiki/Osmconvert for installation.
 #' @export
-#' @return A data.table, with lat, lon, and timestamp columns.
-data_table_from_OSM_file <- function(osm_file, osm_convert='osm_convert') {
+#' @return A data.table, with lat, lon, and time_stamp columns.
+data_table_from_OSM_file <- function(osm_file, osmconvert='osmconvert') {
     ## Verify that osm_file exists
     osm_file = normalizePath(osm_file)
     if(!file.exists(osm_file)) { stop("Could not find file: ", osm_file)}
     ## If input file is osm (xml) or pbf, make csv file in the same directory / with the same name
     if(tools::file_ext(osm_file) %in% c('osm', 'pbf')) {
-        ## First, verify that osm_convert can be run from the command line
+        ## First, verify that osmconvert can be run from the command line
         cmd.fun = if (.Platform$OS.type == 'windows') shell else system
-        tryCatch(cmd.fun(sprintf('%s -h', osm_convert), intern=TRUE, ignore.stdout=TRUE), 
-                 error = function(e) { stop("Could not find command: ", osm_convert )})
+        tryCatch(cmd.fun(sprintf('%s -h', osmconvert), intern=TRUE, ignore.stdout=TRUE), 
+                 error = function(e) { stop("Could not find command: ", osmconvert )})
         ## Time to convert to csv. Pick the same basename and directory as the input file.
         osm_file_basename = tools::file_path_sans_ext(osm_file)
         cmd.fun(sprintf('%s %s --csv="@lat @lon @timestamp" --csv-separator="," -o=%s.csv',
-                        osm_convert, osm_file, osm_file_basename))
+                        osmconvert, osm_file, osm_file_basename))
         osm_file = sprintf("%s.csv", osm_file_basename)
         stopifnot(file.exists(osm_file)) # Verify that output happened correctly
     } else if (tools::file_ext(osm_file) != 'csv') {
         stop("File with that extension not support. Please report a bug if it should be.")
     }
-    ## Finally, read the csv file, convert into a data.table, convert timestamp, and return
+    ## Finally, read the csv file, convert into a data.table, convert time_stamp, and return
     dt = data.table(setNames(read.csv(osm_file, header=F), c("lat", "lon", "time_stamp")))
     dt$time_stamp = ymd_hms(dt$time_stamp) #dt[, time_stamp := ymd_hms(time_stamp)]
     dt
