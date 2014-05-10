@@ -13,7 +13,7 @@ blank_theme <- function(bgfill='white') {
 #' @param timeunit_pretty A pretty printed version of the timeunit (eg. Week for week).
 #' @param basemap A basemap to plot data on top of. Must be a ggplot object.
 #' @export
-single_timeunit_plot <- function(before, this, total_by_timeunit, timeunit_pretty, basemap=NULL) {
+plot_single_timeunit <- function(before, this, total_by_timeunit, timeunit_pretty, basemap=NULL) {
     this_timeunit <- unique(this$timeunit)
     stopifnot(length(this_timeunit) == 1) 
     p1 <- if(is.null(basemap)) { ggplot() } else { autoplot(basemap) }
@@ -37,12 +37,12 @@ single_timeunit_plot <- function(before, this, total_by_timeunit, timeunit_prett
 #'                         be in WGS84. time_stamp must be of type R POSIXct.
 #' @param time_unit        Time unit for each frame. As per lubridate::round_date, should be one of
 #'                              "second","minute","hour","day", "week", "month", or "year."
-#' @param single_timeunit_plot_FUN Function for plotting a single frame. See single_timeunit_plot for
+#' @param plot_single_timeunit_FUN Function for plotting a single frame. See plot_single_timeunit for
 #'                              details on what the function should look like.
 #' @param verbose          A flag to determine whether progress of the time lapse making process are printed
 #'                              out to the console.
 #' @export
-time_lapse <- function(node_data_table, time_unit='week', single_timeunit_plot_FUN=single_timeunit_plot,
+time_lapse <- function(node_data_table, time_unit='week', plot_single_timeunit_FUN=plot_single_timeunit,
                        verbose=FALSE, downloadBaseMap=TRUE) { 
     stopifnot(all(c("lat", "lon", "time_stamp") %in% names(node_data_table)))
     ## basemap
@@ -72,7 +72,7 @@ time_lapse <- function(node_data_table, time_unit='week', single_timeunit_plot_F
         before = node_data_table[timeunit < current_timeunit]
         this = node_data_table[timeunit==current_timeunit]
         if(verbose) cat(".")
-        single_timeunit_plot_FUN(before=before, this=this,
+        plot_single_timeunit_FUN(before=before, this=this,
                                  total_by_timeunit=total_by_timeunit, 
                                  timeunit_pretty=toupper(time_unit),
                                  basemap=basemap)

@@ -3,7 +3,7 @@
 \title{Default plot for a single timeunit worth of data (one frame of animation).}
 \usage{
 time_lapse(node_data_table, time_unit = "week",
-  single_timeunit_plot_FUN = single_timeunit_plot, verbose = FALSE,
+  plot_single_timeunit_FUN = plot_single_timeunit, verbose = FALSE,
   downloadBaseMap = TRUE)
 }
 \arguments{
@@ -16,8 +16,8 @@ time_lapse(node_data_table, time_unit = "week",
   "second","minute","hour","day", "week", "month", or
   "year."}
 
-  \item{single_timeunit_plot_FUN}{Function for plotting a
-  single frame. See single_timeunit_plot for details on
+  \item{plot_single_timeunit_FUN}{Function for plotting a
+  single frame. See plot_single_timeunit for details on
   what the function should look like.}
 
   \item{verbose}{A flag to determine whether progress of
