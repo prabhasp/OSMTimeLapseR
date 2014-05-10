@@ -91,7 +91,7 @@ time_lapse <- function(node_data_table, time_unit='week', plot_single_timeunit_F
 #'          http://wiki.openstreetmap.org/wiki/Osmconvert for installation.
 #' @export
 #' @return A data.table, with lat, lon, and time_stamp columns.
-data_table_from_OSM_file <- function(osm_file, osmconvert='osmconvert') {
+read_OSM <- function(osm_file, osmconvert='osmconvert') {
     ## Verify that osm_file exists
     osm_file = normalizePath(osm_file)
     if(!file.exists(osm_file)) { stop("Could not find file: ", osm_file)}

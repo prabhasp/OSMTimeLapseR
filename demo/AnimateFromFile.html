@@ -202,7 +202,7 @@ download.file(url = &quot;http://osm-extracted-metros.s3.amazonaws.com/sochi.osm
     destfile = &quot;sochi.osm.pbf&quot;)
 
 ## Load OSM file for time lapse
-sochi_2013 = data_table_from_OSM_file(&quot;sochi.osm.pbf&quot;)
+sochi_2013 = read_OSM(&quot;sochi.osm.pbf&quot;)
 
 ## Create a GIF. Note: requires ImageMagick.
 saveGIF({
