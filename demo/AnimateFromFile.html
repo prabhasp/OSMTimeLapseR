@@ -189,18 +189,23 @@ hr {
 </head>
 
 <body>
+<p><link href="http://kevinburke.bitbucket.org/markdowncss/markdown.css" rel="stylesheet"></link></p>
+
 <h1>USE OSMTimeLapseR to animate your own data</h1>
 
 <p>In this example, we will download a dataset from Michal Migurski&#39;s amazing <a href="http://osm-extracted-metros.s3.amazonaws.com/sochi.osm.pbf">Metro Extracts</a> for Sochi, Russia, and visualize data on OSM over time. In this example, we will create a GIF, but you could create an HTML-based visualization with controls without much hassle if you have a look at <a href="AnimateHTML.html">the html demo</a></p>
 
-<pre><code class="r">require(OSMTimeLapseR)  ## Load the library
+<pre><code class="r">## Load the library
+require(OSMTimeLapseR)
+## Download file into local directory
 download.file(url = &quot;http://osm-extracted-metros.s3.amazonaws.com/sochi.osm.pbf&quot;, 
-    destfile = &quot;sochi.osm.pbf&quot;)  ## Download file into local directory
+    destfile = &quot;sochi.osm.pbf&quot;)
 
-sochi_2013 = data_table_from_OSM_file(&quot;sochi.osm.pbf&quot;)  ## Load OSM file for time lapse
+## Load OSM file for time lapse
+sochi_2013 = data_table_from_OSM_file(&quot;sochi.osm.pbf&quot;)
 
+## Create a GIF. Note: requires ImageMagick.
 saveGIF({
-    ## Create a GIF. Note: requires ImageMagick.
     time_lapse(sochi_2013, &quot;year&quot;, verbose = FALSE)
 }, movie.name = &quot;sochi_yearly.gif&quot;, interval = 0.5, outdir = getwd())
 </code></pre>

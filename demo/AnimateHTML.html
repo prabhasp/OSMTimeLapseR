@@ -193,20 +193,23 @@ hr {
 
 <h1>Monthly timelapse of Kathmandu, as HTML file</h1>
 
-<p>In this brief demo, we will show you how to use the OSMTimeLapser package to create a html-based timelapse of the built-in Kathmandu dataset. Once you install OSMTimeLapser [1], you can type the same commands to create your own gif. Note that you can change &#39;month&#39; to &#39;year&#39; or &#39;week&#39;, the filename, output directory, and interval of switching from one picture to another. For more options, see <code>?saveGIF</code> and <code>?ani.options</code>.</p>
+<p>In this brief demo, we will show you how to use the OSMTimeLapser package to create a html-based timelapse of the built-in Kathmandu dataset. Once you install OSMTimeLapser [1], you can type the same commands to create your own gif. Note that you can change &#39;month&#39; to &#39;year&#39; or &#39;week&#39;, the filename, output directory, and interval of switching from one picture to another. For more options, see <code>?saveHTML</code> and <code>?ani.options</code>.</p>
 
-<pre><code class="r">require(OSMTimeLapseR)  ## Load the library
-data(kathmandu_2013)  ## Load the built-in dataset kathmandu_2013 into your R environment
+<pre><code class="r">## Load the library
+require(OSMTimeLapseR)
+## Load the built-in dataset kathmandu_2013 into your R environment
+data(kathmandu_2013)
 
+## Create an HTML animation using the animate package. For more options, see
+## ?saveHTML
 saveHTML({
-    ## Create an HTML animation using the animate package.
     time_lapse(kathmandu_2013, &quot;month&quot;, verbose = FALSE)
 }, title = &quot;Edits to OSM in Kathmandu&quot;, ani.height = 600, ani.width = 1000, 
     single.opts = paste(&quot;&#39;controls&#39;:&quot;, &quot;[&#39;first&#39;, &#39;previous&#39;, &#39;play&#39;, &#39;next&#39;, &#39;last&#39;, &#39;speed&#39;]&quot;), 
     loop = FALSE, interval = 0.5, outdir = getwd(), htmlfile = &quot;kathmandu_monthly.html&quot;)
 </code></pre>
 
-<p><iframe src="kathmandu_monthly.html" width=650 height=1050/></p>
+<p><iframe src="kathmandu_monthly.html" width=1000 height=900/></p>
 
 <p>[1] To install OSMTimeLapseR, copy and paste the following into an R console. You will also need to install Java (for the downloading and re-projecting the basemap) and ImageMagick (for creating GIFs).
 <code>install.packages(&#39;devtools&#39;); require(devtools); install_github(&quot;prabhasp/OSM-TimeLapseR&quot;)</code></p>
