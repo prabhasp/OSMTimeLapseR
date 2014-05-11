@@ -136,3 +136,4 @@ read_OSM <- function(osm_file, osmconvert = 'osmconvert') {
     dt$time_stamp = ymd_hms(dt$time_stamp) #dt[, time_stamp := ymd_hms(time_stamp)]
     dt
 }
+
