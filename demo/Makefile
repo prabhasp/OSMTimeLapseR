@@ -7,3 +7,5 @@ sochi_yearly.gif: AnimateFromFile.Rmd
 	echo 'require(knitr); knit2html("AnimateFromFile.Rmd")' | R --no-save
 kathmandu_monthly.html: AnimateHTML.Rmd
 	echo 'require(knitr); knit2html("AnimateHTML.Rmd")' | R --no-save
+CheckingAssumptions.html: CheckingAssumptions.Rmd
+	echo 'require(knitr); knit2html("CheckingAssumptions.Rmd")' | R --no-save
