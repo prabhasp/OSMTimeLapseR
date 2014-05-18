@@ -7,12 +7,13 @@ Welcome to OSMTimeLapseR. This package helps you visualize the edits to OSM in a
 
 A monthly visualization is [here](demo/kathmandu_monthly.html).
 
-**Note**: We are NOT visualizing all changes to OSM. We are only visualizing the last changed date of all nodes that still exist in OSM. This under-reports changes, and is slightly biased towards later dates. In Kathmandu's case, 90% of the nodes were only edited once, and the last edit represents 80% of all edits, so this approximation was found to be appropriate. You may want to test your own assumptions.
+**Note**: We are NOT visualizing all changes to OSM. We are only visualizing the last changed date of all nodes that still exist in OSM. This under-reports changes, and is slightly biased towards later dates. In Kathmandu's case, 90% of the nodes were only edited once, and the last edit represents > 85% of all edits, so this approximation was found to be appropriate. You may want to test your own assumptions; [see this article to learn how.](http://prabhasp.github.io/OSMTimeLapseR/demo/CheckingAssumptions.html).
 
 Create your own
 ---
  * To see how the above visualizations were produced, see the corresponding demos: [GIF](demo/AnimateGIF.html), [HTML](demo/AnimateHTML.html).
  * To work with your own datasets, see [this demo](demo/AnimateFromFile.html)
+ * To create your own custom visualization, see [this demo](demo/CustomizingVisualizations.html)
 
 Installation instructions
 ---

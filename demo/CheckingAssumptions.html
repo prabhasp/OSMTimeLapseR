@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
-<title>Checking Assumptions behind OSM-TimeLapseR</title>
+<title>Checking Assumptions behind OSMTimeLapseR</title>
 
 <!-- Styles for R syntax highlighter -->
 <style type="text/css">
@@ -192,9 +192,9 @@ hr {
 <body>
 <p><link href="http://kevinburke.bitbucket.org/markdowncss/markdown.css" rel="stylesheet"></link></p>
 
-<h1>Checking Assumptions behind OSM-TimeLapseR</h1>
+<h1>Checking Assumptions behind OSMTimeLapseR</h1>
 
-<p>OSM-TimeLapseR creates a time lapse of OSM node-level edits based on the <code>timestamp</code> attribute. This attribute represents the last time the node was edited, and doesn&#39;t include historical data. It also misses out nodes that were deleted. While skipping nodes that were deleted seems totally fine, you might want to check what percentage of history you are representing when making a visualization with OSM-TimeLapseR. In this article, we walk through the process of checking this percentage, which will help you decide whether an OSM-TimeLapseR based visualization is a rough representation of OSM growth in your community!</p>
+<p>OSMTimeLapseR creates a time lapse of OSM node-level edits based on the <code>timestamp</code> attribute. This attribute represents the last time the node was edited, and doesn&#39;t include historical data. It also misses out nodes that were deleted. While skipping nodes that were deleted seems totally fine, you might want to check what percentage of history you are representing when making a visualization with OSMTimeLapseR. In this article, we walk through the process of checking this percentage, which will help you decide whether an OSMTimeLapseR based visualization is a rough representation of OSM growth in your community!</p>
 
 <h2>Lets get started!</h2>
 
@@ -212,15 +212,7 @@ require(OSMTimeLapseR)
 ## We&#39;ll use read_OSM to read the datasets explicitly from the .pbf file, and
 ## make sure that @version is included in the columns
 kathmandu_2013 = read_OSM(&quot;kathmandu.osm.pbf&quot;, columns = &quot;@lat @lon @timestamp @version&quot;)
-</code></pre>
-
-<pre><code>## Error: unused argument (columns = &quot;@lat @lon @timestamp @version&quot;)
-</code></pre>
-
-<pre><code class="r">sochi_2013 = read_OSM(&quot;sochi.osm.pbf&quot;, columns = &quot;@lat @lon @timestamp @version&quot;)
-</code></pre>
-
-<pre><code>## Error: unused argument (columns = &quot;@lat @lon @timestamp @version&quot;)
+sochi_2013 = read_OSM(&quot;sochi.osm.pbf&quot;, columns = &quot;@lat @lon @timestamp @version&quot;)
 </code></pre>
 
 <p>Okay, great! Lets check how many of the nodes in Kathmandu (and Sochi) were actually only ever edited once (and therefore, are still at version 1).</p>
@@ -228,13 +220,13 @@ kathmandu_2013 = read_OSM(&quot;kathmandu.osm.pbf&quot;, columns = &quot;@lat @l
 <pre><code class="r">cat(100 * mean(kathmandu_2013$version == 1), &quot;%&quot;)
 </code></pre>
 
-<pre><code>## Error: error in evaluating the argument &#39;x&#39; in selecting a method for function &#39;mean&#39;: Error: object &#39;kathmandu_2013&#39; not found
+<pre><code>## 90.08 %
 </code></pre>
 
 <pre><code class="r">cat(100 * mean(sochi_2013$version == 1), &quot;%&quot;)
 </code></pre>
 
-<pre><code>## Error: error in evaluating the argument &#39;x&#39; in selecting a method for function &#39;mean&#39;: Error: object &#39;sochi_2013&#39; not found
+<pre><code>## 66.97 %
 </code></pre>
 
 <p>For Kathmandu, 90% of the nodes have only been edited once! This is because Kathmandu&#39;s OSM community is fairly young. It also means that using just the last timestamp to visualize edits over time doesn&#39;t seem that bad!</p>
@@ -247,13 +239,13 @@ kathmandu_2013 = read_OSM(&quot;kathmandu.osm.pbf&quot;, columns = &quot;@lat @l
 cat(100 * nrow(kathmandu_2013)/sum(kathmandu_2013$version), &quot;%&quot;)
 </code></pre>
 
-<pre><code>## Error: error in evaluating the argument &#39;x&#39; in selecting a method for function &#39;nrow&#39;: Error: object &#39;kathmandu_2013&#39; not found
+<pre><code>## 85.74 %
 </code></pre>
 
 <pre><code class="r">cat(100 * nrow(sochi_2013)/sum(sochi_2013$version), &quot;%&quot;)
 </code></pre>
 
-<pre><code>## Error: error in evaluating the argument &#39;x&#39; in selecting a method for function &#39;nrow&#39;: Error: object &#39;sochi_2013&#39; not found
+<pre><code>## 62.06 %
 </code></pre>
 
 <p>This is pretty close to the earlier result. Again, for Kathmandu, we are representing about 86% of historical edits (ignoring deletion), and for Sochi, the number is closer to 62%. If you are visualizing a different area or city, you should run similar code on your city, see what percentage of history you are capturing, and decide whether that is acceptable for you!</p>

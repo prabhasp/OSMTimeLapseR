@@ -16,7 +16,7 @@ plot_single_timeunit(before, this, total_by_timeunit, timeunit_pretty,
 
 \item{timeunit_pretty}{A pretty printed version of the timeunit (eg. Week for week).}
 
-\item{basemap}{A basemap to plot data on top of. Either NULL, or an object you can call autoplot on.}
+\item{basemap}{A ggplot object representing the basemap.}
 
 \item{base_color}{The color to plot "before" points in, Default is grey50.}
 
