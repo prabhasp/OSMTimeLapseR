@@ -11,7 +11,7 @@ blank_theme <- function(bgfill = 'white') {
 #' @param this data.table for this timeunit's data.
 #' @param total_by_timeunit data.table with a summary of total observations per timeunit.
 #' @param timeunit_pretty A pretty printed version of the timeunit (eg. Week for week).
-#' @param basemap A basemap to plot data on top of. Either NULL, or an object you can call autoplot on.
+#' @param basemap A ggplot object representing the basemap.
 #' @param base_color The color to plot "before" points in, Default is grey50.
 #' @param highlight The color to plot "this time_unit" points in, Default is red.
 #' @param bg_color The color of the background panel, Default is white.
@@ -22,8 +22,7 @@ plot_single_timeunit <- function(before, this, total_by_timeunit, timeunit_prett
         base_color = 'grey50', highlight = 'red', bg_color = 'white', size = 1, alpha = 0.8) {
     this_timeunit <- unique(this$timeunit)
     stopifnot(length(this_timeunit) == 1) 
-    p1 <- if(is.null(basemap)) { ggplot() + coord_map() } else { autoplot(basemap) }
-    p1 <- p1 + 
+    p1 <- basemap + 
         geom_point(data = before, aes(x = lon, y = lat), color = base_color, size = size, alpha = alpha^2) +
         geom_point(data = this, aes(x = lon, y = lat), color = highlight, size = size, alpha = alpha) +
         labs(title = paste(timeunit_pretty,this_timeunit, sep = ": ")) +  
@@ -57,7 +56,7 @@ time_lapse <- function(node_data_table, time_unit = 'year', basemap_type = "mapb
                        plot_single_timeunit_FUN = plot_single_timeunit, verbose = FALSE, ...) { 
     stopifnot(all(c("lat", "lon", "timestamp") %in% names(node_data_table)))
     ## basemap
-    basemap <- get_basemap(lat_range = range(node_data_table$lat, na.rm = T),
+    basemap <- get_ggbasemap(lat_range = range(node_data_table$lat, na.rm = T),
                            lon_range = range(node_data_table$lon, na.rm = T), 
                            type = basemap_type, verbose = verbose)
     
@@ -86,15 +85,18 @@ time_lapse <- function(node_data_table, time_unit = 'year', basemap_type = "mapb
 #' 
 #' @param lat_range A vector of minimum and maximum latitude to download basemap for.
 #' @param lat_range A vector of minimum and maximum latitude to download basemap for.
-#' @param type      What kind of basemap? See options in OpenStreetMap package.
+#' @param type      What kind of basemap? See options in OpenStreetMap package. "none" = blank.
 #' @param num_tiles How many tiles (at least) to download?
 #' @param cache     Whether or not to cache the downloaded map. TRUE by default. Saves
 #'                          an .RDS file that encodes latrange/lonrange.
 #' @param verbose   Prints message about what is being done if TRUE. FALSE by default.
 #' @export
-get_basemap <- function(lat_range, lon_range, num_tiles = 9, type = "mapbox", 
+#' @return A ggplot object.
+get_ggbasemap <- function(lat_range, lon_range, num_tiles = 9, type = "mapbox", 
                         cache = TRUE, verbose = FALSE) {
-    if(type == "none") return(NULL)
+    if(type == "none") { 
+        return(ggplot() + expand_limits(x = lon_range, y = lat_range) + coord_map())
+    }
     fname <- sprintf("OSMBasemap_%s_%s.RDS", type, paste0(lat_range, lon_range, collapse=""))
     if(file.exists(fname) & cache) {
         if(verbose) print("Reading map from file ...")
@@ -110,7 +112,7 @@ get_basemap <- function(lat_range, lon_range, num_tiles = 9, type = "mapbox",
         basemap <- openproj(basemap, CRS("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs"))
         if(cache) saveRDS(basemap, fname)
     }
-    basemap
+    autoplot(basemap)
 }
 
 #' Create a data.table with columns as specified, given osm file.
