@@ -9,3 +9,5 @@ kathmandu_monthly.html AnimateHTML.html: AnimateHTML.Rmd
 	echo 'require(knitr); knit2html("AnimateHTML.Rmd")' | R --no-save
 CheckingAssumptions.html: CheckingAssumptions.Rmd
 	echo 'require(knitr); knit2html("CheckingAssumptions.Rmd")' | R --no-save
+CustomizingVisualizations.html: CustomizingVisualizations.Rmd
+	echo 'require(knitr); knit2html("CustomizingVisualizations.Rmd")' | R --no-save

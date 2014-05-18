@@ -11,8 +11,8 @@ blank_theme <- function(bgfill = 'white') {
 #' @param this data.table for this timeunit's data.
 #' @param total_by_timeunit data.table with a summary of total observations per timeunit.
 #' @param timeunit_pretty A pretty printed version of the timeunit (eg. Week for week).
-#' @param basemap A basemap to plot data on top of. Must be a ggplot object.
-#' @param base_color The color to plot "before" points in, Default is gray.
+#' @param basemap A basemap to plot data on top of. Either NULL, or an object you can call autoplot on.
+#' @param base_color The color to plot "before" points in, Default is grey50.
 #' @param highlight The color to plot "this time_unit" points in, Default is red.
 #' @param bg_color The color of the background panel, Default is white.
 #' @param size The default point size, Default is 1.
@@ -39,7 +39,7 @@ plot_single_timeunit <- function(before, this, total_by_timeunit, timeunit_prett
     grid.arrange(p1, p2, heights = c(4,1))
 }
 
-#' Default plot for a single timeunit worth of data (one frame of animation).
+#' Function to create a time lapse animation out of a data table of nodes.
 #' 
 #' @param node_data_table  data.table containing, at least lat, lon, and timestamp. lat + lon must
 #'                         be in WGS84. timestamp must be of type R POSIXct.
@@ -47,20 +47,19 @@ plot_single_timeunit <- function(before, this, total_by_timeunit, timeunit_prett
 #'                              "second","minute","hour","day", "week", "month", or "year."
 #' @param plot_single_timeunit_FUN Function for plotting a single frame. See plot_single_timeunit for
 #'                              details on what the function should look like.
+#' @param basemap_type     Which OSM basemap to download? type must be supported by OpenStreetMap
+#'                              package. Default is mapbox. Pass "none" to skip basemap.
 #' @param verbose          A flag to determine whether progress of the time lapse making process are printed
 #'                              out to the console.
 #' @param ... Other parameters to be passed to plot_single_timeunit. Eg. highlight, alpha, size.
 #' @export
-time_lapse <- function(node_data_table, time_unit = 'week', download_basemap = TRUE,
+time_lapse <- function(node_data_table, time_unit = 'year', basemap_type = "mapbox",
                        plot_single_timeunit_FUN = plot_single_timeunit, verbose = FALSE, ...) { 
     stopifnot(all(c("lat", "lon", "timestamp") %in% names(node_data_table)))
     ## basemap
-    if(download_basemap) {
-        basemap <- get_basemap(range(node_data_table$lat, na.rm = T),
-                               range(node_data_table$lon, na.rm = T), verbose = verbose)
-    } else {
-        basemap <- NULL
-    }
+    basemap <- get_basemap(lat_range = range(node_data_table$lat, na.rm = T),
+                           lon_range = range(node_data_table$lon, na.rm = T), 
+                           type = basemap_type, verbose = verbose)
     
     ## data
     if(verbose) print("Aggregating time unit ...")
@@ -75,16 +74,28 @@ time_lapse <- function(node_data_table, time_unit = 'week', download_basemap = T
         if(verbose) cat(".")
         plot_single_timeunit_FUN(before = before, this = this,
                                  total_by_timeunit = total_by_timeunit, 
-                                 timeunit_pretty = toupper(time_unit),
+                                 timeunit_pretty = R.utils::capitalize(time_unit),
                                  basemap = basemap, ...)
         ani.pause()
     }
     if(verbose) cat('\n')
 }
 
+#' Get basemap using the OpenStreetMap package. Also cache it into a filename unless
+#' cache = FALSE, downloading+projecting tiles takes a while so caching generally makes sense.
+#' 
+#' @param lat_range A vector of minimum and maximum latitude to download basemap for.
+#' @param lat_range A vector of minimum and maximum latitude to download basemap for.
+#' @param type      What kind of basemap? See options in OpenStreetMap package.
+#' @param num_tiles How many tiles (at least) to download?
+#' @param cache     Whether or not to cache the downloaded map. TRUE by default. Saves
+#'                          an .RDS file that encodes latrange/lonrange.
+#' @param verbose   Prints message about what is being done if TRUE. FALSE by default.
+#' @export
 get_basemap <- function(lat_range, lon_range, num_tiles = 9, type = "mapbox", 
                         cache = TRUE, verbose = FALSE) {
-    fname <- sprintf("OSMBasemap_%s.RDS", paste0(lat_range, lon_range, collapse=""))
+    if(type == "none") return(NULL)
+    fname <- sprintf("OSMBasemap_%s_%s.RDS", type, paste0(lat_range, lon_range, collapse=""))
     if(file.exists(fname) & cache) {
         if(verbose) print("Reading map from file ...")
         basemap <- readRDS(fname)
@@ -102,16 +113,15 @@ get_basemap <- function(lat_range, lon_range, num_tiles = 9, type = "mapbox",
     basemap
 }
 
-#' Create a data.table with lat,lon,timestamp given an osm file.
+#' Create a data.table with columns as specified, given osm file.
+#' 
 #' OSM file can be a .csv file, a .osm file or a .pbf file.
 #' If .osm or .pbf file are input, then osmconvert must be the path to
 #' the osmconvert command. A .csv file with an identical basename will be created.
-#' 
 #' @param osm_file The osm_file to process. Can be a .csv, .osm, or .pbf file.
 #' @param osmconvert Path to the osmconvert command-line utility. See
 #'          http://wiki.openstreetmap.org/wiki/Osmconvert for installation.
 #' @param columns Columns that osmconvert should output. Syntax from osmconvert.
-#'        Output dataframe columns will be set to these words without the @ signs.
 #' @export
 #' @return A data.table, with lat, lon, and timestamp columns.
 read_OSM <- function(osm_file, osmconvert = 'osmconvert', columns = '@lat @lon @timestamp') {
@@ -139,4 +149,3 @@ read_OSM <- function(osm_file, osmconvert = 'osmconvert', columns = '@lat @lon @
     dt$timestamp = ymd_hms(dt$timestamp) #dt[, timestamp := ymd_hms(timestamp)]
     dt
 }
-
