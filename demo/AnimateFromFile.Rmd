@@ -22,4 +22,4 @@ saveGIF({
 ![](sochi_yearly.gif)
 
 [1] To install OSMTimeLapseR, copy and paste the following into an R console. You will also need to install Java (for the downloading and re-projecting the basemap) and ImageMagick (for creating GIFs).
-```install.packages('devtools'); require(devtools); install_github("prabhasp/OSM-TimeLapseR")```
+```install.packages('devtools'); require(devtools); install_github("prabhasp/OSMTimeLapseR")```

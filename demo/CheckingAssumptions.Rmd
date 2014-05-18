@@ -1,8 +1,8 @@
 <link href="http://kevinburke.bitbucket.org/markdowncss/markdown.css" rel="stylesheet"></link>
-Checking Assumptions behind OSM-TimeLapseR
+Checking Assumptions behind OSMTimeLapseR
 ========================================================
 
-OSM-TimeLapseR creates a time lapse of OSM node-level edits based on the `timestamp` attribute. This attribute represents the last time the node was edited, and doesn't include historical data. It also misses out nodes that were deleted. While skipping nodes that were deleted seems totally fine, you might want to check what percentage of history you are representing when making a visualization with OSM-TimeLapseR. In this article, we walk through the process of checking this percentage, which will help you decide whether an OSM-TimeLapseR based visualization is a rough representation of OSM growth in your community!
+OSMTimeLapseR creates a time lapse of OSM node-level edits based on the `timestamp` attribute. This attribute represents the last time the node was edited, and doesn't include historical data. It also misses out nodes that were deleted. While skipping nodes that were deleted seems totally fine, you might want to check what percentage of history you are representing when making a visualization with OSMTimeLapseR. In this article, we walk through the process of checking this percentage, which will help you decide whether an OSMTimeLapseR based visualization is a rough representation of OSM growth in your community!
 
 Lets get started!
 ---
