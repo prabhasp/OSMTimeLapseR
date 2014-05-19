@@ -1,5 +1,4 @@
 <link href="http://kevinburke.bitbucket.org/markdowncss/markdown.css" rel="stylesheet"></link>
-<a href="https://github.com/prabhasp/OSMTimeLapseR"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png" alt="Fork me on GitHub"></a></p>
 
 OSMTimeLapseR
 ==============
@@ -32,3 +31,5 @@ Credits
  * Mike Migurski's [Metro Extracts](http://metro.teczno.com/) and [osmconvert](http://wiki.openstreetmap.org/wiki/Osmconvert) have helped this work along greatly.
  * This work owes quite a bit to the R software world, including Hadley Wickam's packages (which make R pleasant to work with) and Yihui Xie's animation package.
  * Thanks to Robert Banick, Nama Budhathoki, Nate Smith, Robert Soden, Daniel Wood and others from the OSM community for early stage feedback and encouragement.
+
+<a href="https://github.com/prabhasp/OSMTimeLapseR"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png" alt="Fork me on GitHub"></a></p>
