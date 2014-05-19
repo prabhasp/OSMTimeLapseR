@@ -1,20 +1,21 @@
-<p><link href="http://kevinburke.bitbucket.org/markdowncss/markdown.css" rel="stylesheet"></link></p>
+<p><link href="http://kevinburke.bitbucket.org/markdowncss/markdown.css" rel="stylesheet"></link>
+<a href="https://github.com/SEL-Columbia/formhub.R"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png" alt="Fork me on GitHub"></a></p></p>
 
 <h1>OSMTimeLapseR</h1>
 
-<p>Welcome to OSMTimeLapseR. This package helps you visualize the edits to OSM in a certain part of the world. It was developed based on a request from the OSM Nepal community, whose work growing OSM in Kathmandu can be seen below: </p>
+<p>Welcome to OSMTimeLapseR. This package helps you visualize the edits to OSM in your community. It was developed based on a request from the OSM Nepal community, whose work growing OSM in Kathmandu can be seen below. But you can use it to create visualize growth in your own community -- see the "Create your own" section below.</p>
 
-<p><img src="demo/kathmandu_yearly.gif" alt="" title="" /></p>
+<p><img src="http://prabhasp.github.io/OSMTimeLapseR/demo/kathmandu_yearly.gif" alt="" title="" /></p>
 
-<p>A monthly visualization is <a href="demo/kathmandu_monthly.html">here</a>.</p>
+<p>A monthly visualization is <a href="http://prabhasp.github.io/OSMTimeLapseR/demo/kathmandu_monthly.html">here</a>.</p>
 
 <p><strong>Note</strong>: We are NOT visualizing all changes to OSM. We are only visualizing the last changed date of all nodes that still exist in OSM. This under-reports changes, and is slightly biased towards later dates. In Kathmandu's case, 90% of the nodes were only edited once, and the last edit represents > 85% of all edits, so this approximation was found to be appropriate. You may want to test your own assumptions; <a href="http://prabhasp.github.io/OSMTimeLapseR/demo/CheckingAssumptions.html">see this article to learn how.</a>.</p>
 
 <h2>Create your own</h2>
 
 <ul>
-<li>To see how the above visualizations were produced, see the corresponding demos: <a href="demo/AnimateGIF.html">GIF</a>, <a href="demo/AnimateHTML.html">HTML</a>.</li>
-<li>To work with your own datasets, see <a href="demo/AnimateFromFile.html">this demo</a></li>
+<li>To see how the above visualizations were produced, see the corresponding demos: <a href="http://prabhasp.github.io/OSMTimeLapseR/demo/AnimateGIF.html">GIF</a>, <a href="http://prabhasp.github.io/OSMTimeLapseR/demo/AnimateHTML.html">HTML</a>.</li>
+<li>To work with your own datasets, see <a href="http://prabhasp.github.io/OSMTimeLapseR/demo/AnimateFromFile.html">this demo</a></li>
 <li>To create your own custom visualization, see <a href="demo/CustomizingVisualizations.html">this demo</a></li>
 </ul>
 
@@ -29,4 +30,13 @@
 <li>Install Java (required by R's <code>OpenStreetMap</code> package).</li>
 <li>If you want to work with your own files, install <a href="osmconvert">http://wiki.openstreetmap.org/wiki/Osmconvert</a></li>
 <li>If you want to make GIFs, install <a href="http://www.imagemagick.org/">ImageMagick</a></li>
+</ul>
+
+<h2>Credits</h2>
+
+<ul>
+<li>This work wouldn't exist without the work of the OSM volunteers in Nepal and the incredible work they have been doing. All inspiration is drawn from them.</li>
+<li>Mike Migurski's <a href="http://metro.teczno.com/">Metro Extracts</a> and <a href="http://wiki.openstreetmap.org/wiki/Osmconvert">osmconvert</a> have helped this work along greatly.</li>
+<li>This work owes quite a bit to the R software world, including Hadley Wickam's packages (which make R pleasant to work with) and Yihui Xie's animation package.</li>
+<li>Thanks to Robert Banick, Nama Budhathoki, Nate Smith, Robert Soden, Daniel Wood and others from the OSM community for early stage feedback and encouragement.</li>
 </ul>
