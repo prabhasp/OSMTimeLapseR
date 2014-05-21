@@ -1,0 +1,10 @@
+safe: false
+baseurl: /
+
+source: .
+destination: ./_site
+plugins: ./_plugins
+
+permalink: none
+
+name: OSMTimeLapseR
