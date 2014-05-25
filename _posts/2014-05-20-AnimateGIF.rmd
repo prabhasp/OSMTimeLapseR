@@ -16,7 +16,7 @@ saveGIF({                        ## Create a GIF using the animate package. Note
     time_lapse(kathmandu_2013, 'year', verbose = FALSE)
 }, movie.name = "kathmandu_yearly.gif", interval = 1.0, outdir = normalizePath('../demo/'))
 ```
-![]({{site.url}}/demo/kathmandu_yearly.gif)
+![]({{site.baseurl}}/demo/kathmandu_yearly.gif)
 
 [1] To install OSMTimeLapseR, copy and paste the following into an R console. You will also need to install Java (for the downloading and re-projecting the basemap) and ImageMagick (for GIF outputs).
 ```install.packages('devtools'); require(devtools); install_github("prabhasp/OSMTimeLapseR")```

@@ -26,7 +26,7 @@ saveHTML({
   htmlfile = 'kathmandu_monthly.html'
 )
 ```
-<iframe src="kathmandu_monthly.html" width=1000 height=900/>
+<iframe src="{{site.baseurl}}/demo/kathmandu_monthly.html" width="1100" height="900" frameBorder="0"> </iframe>
 
 [1] To install OSMTimeLapseR, copy and paste the following into an R console. You will also need to install Java (for the downloading and re-projecting the basemap) and ImageMagick (for creating GIFs).
 ```install.packages('devtools'); require(devtools); install_github("prabhasp/OSMTimeLapseR")```

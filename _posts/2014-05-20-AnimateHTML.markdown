@@ -22,7 +22,7 @@ In this brief demo, we will show you how to use the OSMTimeLapser package to cre
         single.opts = paste("'controls':", "['first', 'previous', 'play', 'next', 'last', 'speed']"), 
         loop = FALSE, interval = 0.5, outdir = normalizePath("../demo/"), htmlfile = "kathmandu_monthly.html")
 
-<iframe src="kathmandu_monthly.html" width=1000 height=900/>
+<iframe src="{{site.baseurl}}/demo/kathmandu_monthly.html" width="1100" height="900" frameBorder="0"> </iframe>
  
 [1] To install OSMTimeLapseR, copy and paste the following into an R console. You will also need to install Java (for the downloading and re-projecting the basemap) and ImageMagick (for creating GIFs).
 ```install.packages('devtools'); require(devtools); install_github("prabhasp/OSMTimeLapseR")```
