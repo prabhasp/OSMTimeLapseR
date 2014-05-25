@@ -3,12 +3,12 @@ layout: post
 title: Yearly timelapse of Kathmandu, as a GIF
 published: false
 status: process
-permalink: none
+permalink: demo/AnimateGIF.html
 ---
 
 In this brief demo, we will show you how to use the OSMTimeLapser package to create a GIF-based timelapse of the built-in Kathmandu dataset. Once you install OSMTimeLapser [1], you can type the same commands to create your own gif. Note that you can change 'year' to 'month' or 'week', the filename, output directory [2], and interval of switching from one picture to another. For more options, see `?saveGIF`.
 
-```{r cache=TRUE, output=FALSE, warning=FALSE, message=FALSE}
+```{r cache=TRUE, output=FALSE, warning=FALSE, message=FALSE, eval=FALSE}
 require(OSMTimeLapseR)           ## Load the library
 data(kathmandu_2013)             ## Load the built-in dataset kathmandu_2013 into your R environment
 
