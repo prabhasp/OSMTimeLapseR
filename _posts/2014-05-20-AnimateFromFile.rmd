@@ -1,0 +1,29 @@
+---
+layout: post
+title: Make a GIF with your own data
+published: false
+status: process
+permalink: examples/use-your-own-data.html
+---
+
+In this example, we will download a dataset from Michal Migurski's amazing [Metro Extracts](http://metro.teczno.com/) for Sochi, Russia, and visualize data on OSM over time. In this example, we will create a GIF, but you could create an HTML-based visualization with controls without much hassle if you have a look at [the html demo]({{site.baseurl}}/examples/html-example.html)
+
+```{r cache=TRUE, output=FALSE, warning=FALSE, message=FALSE, eval=FALSE}
+ ## Load the library
+require(OSMTimeLapseR)                   
+## Download file into local directory
+download.file(url = "http://osm-extracted-metros.s3.amazonaws.com/sochi.osm.pbf",
+              destfile='sochi.osm.pbf')  
+
+## Load OSM file for time lapse
+sochi_2013 = read_OSM('sochi.osm.pbf')
+ 
+## Create a GIF. Note: requires ImageMagick.
+saveGIF({                       
+    time_lapse(sochi_2013, 'year', verbose = FALSE)
+}, movie.name = "sochi_yearly.gif", interval = 0.5, outdir = getwd())
+```
+![]({{site.baseurl}}/demo/sochi_yearly.gif)
+
+[1] To install OSMTimeLapseR, copy and paste the following into an R console. You will also need to install Java (for the downloading and re-projecting the basemap) and ImageMagick (for creating GIFs).
+```install.packages('devtools'); require(devtools); install_github("prabhasp/OSMTimeLapseR")```

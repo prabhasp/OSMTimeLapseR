@@ -3,7 +3,7 @@ layout: post
 title: Monthly timelapse of Kathmandu, as HTML file
 published: true
 status: publish
-categories: [Examples]
+permalink: examples/html-example.html
 ---
  
 In this brief demo, we will show you how to use the OSMTimeLapser package to create a html-based timelapse of the built-in Kathmandu dataset. Once you install OSMTimeLapser [1], you can type the same commands to create your own gif. Note that you can change 'month' to 'year' or 'week', the filename, output directory, and interval of switching from one picture to another. For more options, see `?saveHTML` and `?ani.options`.

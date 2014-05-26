@@ -1,9 +1,9 @@
 ---
 layout: post
-title: Yearly timelapse of Kathmandu, as a GIF
+title: Make your first GIF with OSMTimeLapseR
 published: false
 status: process
-permalink: demo/AnimateGIF.html
+permalink: examples/gif-example.html
 ---
 
 In this brief demo, we will show you how to use the OSMTimeLapser package to create a GIF-based timelapse of the built-in Kathmandu dataset. Once you install OSMTimeLapser [1], you can type the same commands to create your own gif. Note that you can change 'year' to 'month' or 'week', the filename, output directory [2], and interval of switching from one picture to another. For more options, see `?saveGIF`.
