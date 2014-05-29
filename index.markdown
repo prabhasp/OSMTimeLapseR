@@ -2,19 +2,25 @@
 layout: default
 title: OSMTimeLapseR Home
 ---
-Welcome to OSMTimeLapseR. This package helps you visualize the edits to OSM in your community. It was developed based on a request from the OSM Nepal community, whose work growing OSM in Kathmandu can be seen below. But you can use it to create visualize growth in your own community -- see the "Create your own" section below.
+Welcome to OSMTimeLapseR. 
+
+OSMTimeLapseR is an R package that helps you visualize the edits to OpenStreetMap ([OSM](http://osm.org)) in various parts of the world. OSM is a volunteer-contributed map of the world (just like Wikipedia), and lots of people have spent a lot of time making the map in their communities better. OSMTimeLapseR helps them visualize and showcase that hard work.
+
+It was originally built for visualizing the hard work of the [OSM community](http://osmnepal.org/) in Kathmandu, Nepal, where contributions in OSM have totally exploded in 2012 and 2013. In addition to looking at how OSM has grown in Kathmandu below, we hope that you follow the **Examples** listed on the left-hand side of this page to create visualizations of growth in your own community!
 
 ![]({{site.baseurl}}/demo/kathmandu_yearly.gif)
 
 A monthly visualization is [here]({{site.baseurl}}/demo/kathmandu_monthly.html).
 
-**Note**: We are NOT visualizing all changes to OSM. We are only visualizing the last changed date of all nodes that still exist in OSM. This under-reports changes, and is slightly biased towards later dates. In Kathmandu's case, 90% of the nodes were only edited once, and the last edit represents > 85% of all edits, so this approximation was found to be appropriate. You may want to test your own assumptions; [see this article to learn how.]({{site.baseurl}}/examples/check-assumptions.html).
 
 Create your own
 ---
- * To see how the above visualizations were produced, see the corresponding demos: [GIF]({{site.baseurl}}/examples/gif-example.html), [HTML]({{site.baseurl}}/examples/html-example.html).
- * To work with your own datasets, see [this example]({{site.baseurl}}/examples/use-your-own-data.html)
- * To create your own custom visualization, see [this example]({{site.baseurl}}/examples/custom.html)
+
+ * Get started with producing visualizations with the OSMTimeLapseR package by following the [Your first GIF]({{site.baseurl}}/examples/gif-example.html) and [Your first HTML visualization]({{site.baseurl}}/examples/html-example.html) examples. These use the data for Kathmandu from 2013, which is bundled with the OSMTimeLapseR package. Just by copying and pasting code, you'll be able to re-create the visualizations you see on this webpage!
+ * To work with your own datasets, see the [Make a GIF with your own data tutorial]({{site.baseurl}}/examples/use-your-own-data.html). We download data from Sochi, Russia, but you can use any .osm file you have access to.
+ * If you want to go beyond the red/grey dot-based visualization, you can create your own custom visualization. See the [Creating Custom Visualizations]({{site.baseurl}}/examples/custom.html) examples for how to do that.
+
+**Caveat**: For those who are keeping track at home, we are visualizing only the last change on nodes that are not deleted on OSM. This turns out to be an okay representation of reality for Kathmandu, but you may want to [check assumptions if you make visualizations for a different community.]({{site.baseurl}}/examples/check-assumptions.html).
 
 Installation instructions
 ---
