@@ -1,12 +1,4 @@
 #sidebar {
-    position: fixed;
-    width: 200px;
-    height: 100%;
-    z-index: 100 !important;    
-    padding: 10px 0 0 20px;
-    margin-top: 10px;
-}
-#sidebar {
     color: #6f6f6f;
 }
 #sidebar a {
@@ -18,10 +10,6 @@
     color: #6f6f6f;
     font-family: "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-weight: bold;
-}
-#content {
-    margin-left: 225px;
-    padding: 20px 20px 20px 50px;
 }
 /* Following from http://kevinburke.bitbucket.org/markdowncss/markdown.css */
 body {

@@ -2,16 +2,21 @@
 <head>
     <title>OSMTimeLapseR, by prabhasp</title>
     <style>
+        {% include skeleton.css %}
         {% include style.css %}
     </style>
 </head>
 <body>
-        <div id="sidebar">
+    <div class="container">
+    <nav>
+        <div id="sidebar" class="three columns">
             {% include sidebar.html %}
         </div>
-        <div id="content">
+    </nav>
+        <div class="twelve columns offset-by-one">
             {{ content }}
         </div>
+    </div>
 
 </body>
 </html>

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Creating Custom Visualizations
+title: Customize your Visualizations
 published: true
 status: publish
 permalink: examples/custom.html

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Monthly timelapse of Kathmandu, as HTML file
+title: Your first HTML visualization
 published: true
 status: publish
 permalink: examples/html-example.html
