@@ -1,0 +1,13 @@
+safe: false
+baseurl: /
+
+source: .
+destination: ./_site
+plugins: ./_plugins
+
+permalink: none
+
+name: OSMTimeLapseR
+markdown: kramdown # see https://help.github.com/articles/migrating-your-pages-site-from-maruku
+baseurl: /OSMTimeLapseR
+

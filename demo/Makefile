@@ -1,6 +1,6 @@
-all: ../index.html kathmandu_yearly.gif sochi_yearly.gif *.html 
-../index.html: ../README.md
-	markdown ../README.md > ../index.html
+all: ../index.markdown kathmandu_yearly.gif sochi_yearly.gif *.html 
+../index.markdown: ../README.md
+	cp ../README.md ../index.markdown
 kathmandu_yearly.gif AnimateGIF.html: AnimateGIF.Rmd
 	echo 'require(knitr); knit2html("AnimateGIF.Rmd", options=c("use_xhtml","smartypants","mathjax","highlight_code"))' | R --no-save
 sochi_yearly.gif AnimateFromFile.html: AnimateFromFile.Rmd
