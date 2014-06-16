@@ -25,6 +25,7 @@ Create your own
 Installation instructions
 ---
  * Install R ([Mac](http://cran.r-project.org/bin/macosx/), [Windows](http://cran.r-project.org/bin/windows/base/), [Other](http://cran.r-project.org/bin/)). I also recommend installing [RStudio](https://www.rstudio.com/ide/download/).
+ * Install Rtools (if you did not install the complete package).
  * Install OSMTimeLapseR by typing the following in your R console:
    * ```install.packages('devtools'); require(devtools); install_github("prabhasp/OSMTimeLapseR")``` 
  * Install Java (required by R's `OpenStreetMap` package).
