@@ -1,11 +1,11 @@
-** Next up **
+**Next up**
  * custom (mapbox) baselayer; contribution to OpenStreetMap package
  * add custom annotations 
  * add bounding box support
  * write docs about using OSM history
  * better controls on html page
  
-** Someday (?) ** 
+**Someday (?)** 
  * make basemap not fuzzy (don't reproject the map?)
  * polygon / line support (lot of work)
  * user attribution in viz (what exactly to do here?)
