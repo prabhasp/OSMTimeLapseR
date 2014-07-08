@@ -1,26 +1,25 @@
+** Next up **
+ * custom (mapbox) baselayer; contribution to OpenStreetMap package
+ * add custom annotations 
+ * add bounding box support
+ * write docs about using OSM history
+ * better controls on html page
  
-**High Priority**
+** Someday (?) ** 
+ * make basemap not fuzzy (don't reproject the map?)
+ * polygon / line support (lot of work)
+ * user attribution in viz (what exactly to do here?)
+
+**Previously to-do**
  * ~~figure out GIF outputting~~
  * ~~add a OSM baselayer (mapbox streets)~~
     * ~~[bug] frame of reference (ie, bbox) shouldn't change over time~~
  * ~~customize time unit of aggregation~~
  * ~~add OSM credit line~~
- * make basemap not fuzzy (ie, don't reproject)
-
-**Medium Priority**
  * ~~easy to deploy on X.osm~~
  * ~~use osmconvert rather than custom osm_parser~~
  * ~~package into an R package~~
-   * ~~figure out how to package osmconvert along with R package
-   (same, with osm_parser)~~
- * add custom annotations 
-
-
-**Argh** *:(harder than need to be items)*
+   * ~~figure out how to package osmconvert along with R package~~
  * ~~change how the histogram is highlighted (add a vertical line that spans the whole bottom graph)~~
- * custom baselayer
+ * ~~customize each visualization~~
 
-**One Day**
- * customize each visualization 
- * polygon / line support (lot of work)
- * user attribution (can of many worms)
