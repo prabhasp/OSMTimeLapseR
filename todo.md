@@ -6,11 +6,12 @@
  * better controls on html page
  
 ** Someday (?) ** 
- * make basemap not fuzzy (don't reproject the map?)
  * polygon / line support (lot of work)
  * user attribution in viz (what exactly to do here?)
+ * make basemap less fuzzy (how?)
 
 **Previously to-do**
+ * ~~don't reproject the map to make basemap less fuzzy -- no effect~~
  * ~~figure out GIF outputting~~
  * ~~add a OSM baselayer (mapbox streets)~~
     * ~~[bug] frame of reference (ie, bbox) shouldn't change over time~~
